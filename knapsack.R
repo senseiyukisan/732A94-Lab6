@@ -46,7 +46,7 @@ greedy_knapsack <- function(x, W){
   
   # Add specific volume vector
   x$nu <- x[["v"]]/x[["w"]]
-  x <- x[order(x$nu), ]
+  x <- x[order(x$nu, decreasing = TRUE), ]
   
   # Creating necessary vectors
   value <- 0
