@@ -17,7 +17,9 @@ brute_force_knapsack <- function(x, W) {
   
   # Iterate over each possible number of element combinations (1-n) and fill list
   for(i in 1:nrow(x)){
+    # Using paste function to sum index strings together
     index_combs[[i]] = combn(rownames(x), i, paste, collapse=",")
+    # Using sum function to sum weights and values
     weight_combs[[i]] = combn(weights, i, sum)
     value_combs[[i]] = combn(values, i, sum)
   }
