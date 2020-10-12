@@ -18,6 +18,10 @@ knapsack_dynamic <- function(x, W) {
   {
     stop("Missing column v in input data");
   }
+  if(W <= 0)
+  {
+    stop("W must be positive numeric!");
+  }
   
   values = x$v
   weights = x$w

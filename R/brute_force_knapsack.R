@@ -1,12 +1,25 @@
+#' @title Brute Force Knapsack
+#' @description Implementation of knapsack problem using a brute force approach.
+#' @references \url{https://en.wikipedia.org/wiki/Knapsack_problem#0.2F1_knapsack_problem}
+#' 
+#' @param x data.frame 
+#' @param W integer (maximum weight fitting in the knapsack)
+#' 
+#' @return Returns a list object containing value and elements information.
+#' @export
 brute_force_knapsack <- function(x, W, parallel = FALSE) {
   stopifnot(is.numeric(W))
   if(!"w" %in% colnames(x))
   {
-    stop("Missing column w in input data");
+    stop("Missing column w in input data!");
   }
   if(!"v" %in% colnames(x))
   {
-    stop("Missing column v in input data");
+    stop("Missing column v in input data!");
+  }
+  if(W <= 0)
+  {
+    stop("W must be positive numeric!");
   }
   values = x$v
   weights = x$w
