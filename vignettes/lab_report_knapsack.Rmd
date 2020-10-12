@@ -67,3 +67,16 @@ We implement the dynamic approach to the problem that is presented in [this arti
 ```{r include = TRUE}
 knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500)
 ```
+
+We measure a runtime speed of 820 ms. The identified bottleneck is the appending of the matrices at 120ms and 360ms respectively. These are identified as being the most time consuming as we are accessing the data in memory each time we check the condition and when changing the value assigned in the matrix.
+
+# Greedy heuristic approach
+
+In this approach, we do not look for the best solution to this optimization problem. This algorithm returns an answer that is at least 50\% of the true maximum value that can be put in the knapsack. This algorithm is faster because we do not compute all possible permutations of items, we only sort the values of items relative to their respective weight and then add them to the knapsack until we exceed the maximum weight value W.
+
+```{r include = TRUE}
+knapsack_(x = knapsack_objects[1:1e+06,], W = 3500)
+```
+
+When we measure the runtime of our code for n = 1e+06, we obtain a total time of 700ms with the main bottleneck registering at 370ms when ordering the vector of ratios of value over weight in decreasing order.
+
