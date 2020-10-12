@@ -71,4 +71,25 @@ brute_force_knapsack <- function(x, W, parallel = FALSE) {
   
   
   return(list(value=round(value), elements=elements))
-}  
+}
+
+test_speed <- function(number_objects, parallel=FALSE) {
+  start_time = Sys.time()
+  brute_force_knapsack(x = knapsack_objects[1:number_objects,], W = 3500)
+  end_time = Sys.time()
+  time_passed = end_time-start_time
+  if (parallel) {
+    cat("Calculation took ", time_passed, " seconds using parallel computing.\n")
+  }
+  else {
+    cat("Calculation took ", time_passed, " seconds.\n")
+  }
+  return(time_passed)
+}
+
+speed_vector = c()
+for (i in 1:10) {
+  speed_vector = c(speed_vector, test_speed(16))
+}
+print(mean(speed_vector))
+# On average the brute force algorithm for n=16 took 0.5543363 seconds on 16 GB 3733 MHz LPDDR4, 2 GHz Quad-Core Intel Core i5.
