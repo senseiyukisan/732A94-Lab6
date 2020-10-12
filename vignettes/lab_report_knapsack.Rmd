@@ -1,0 +1,69 @@
+---
+title: "lab_report_knapsack"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{lab_report_knapsack}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(knapsack)
+```
+
+This report presents different implemented solutions to the knapsack problem. The knapsack problem is an optimization problem where one must fill a knapsack with items of different value v and weight w by choosing the proper combinations of items with the highest value while not exceeding the maximum allowed weight of the knapsack W.
+
+In this exercise, we use the profvis profiling tool to identify botlenecks in the code and measure the performance of the implemented algorithms. The indicated times are in milliseconds. This profiling tools has a resolution of down to 10ms.
+
+We first generate our data.
+
+```{r include = TRUE}
+set.seed(42)
+n <- 2000
+knapsack_objects <- data.frame(
+  w=sample(1:4000, size = n, replace = TRUE),
+  v=runif(n = n, 0, 10000)
+)
+```
+
+# Brute force algorithm.
+
+We try to solve all possible combinations of objects and weight and find the sum of values of each combination that is the closest to the target W.
+
+## Brute Force
+
+The following code is ran and the profiling tool returns a runtime of 790ms. We compute the knapsack problem for the first 16 generated items.
+
+```{r include = TRUE}
+brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500)
+```
+
+The bottleneck identified is the combn() function passing the characters that make up the names of each row. It could be that character combination requires more memory to be handled. We have not been able to change it in order to shroten this time.
+
+## Brute Force parallelization
+
+We implement parallelization in order to improve the performance of our brute force search. We run the following code and use the profiler to identify the bottlenecks.
+
+```{r include = TRUE}
+brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500, parallel = TRUE)
+```
+
+The total runtime is 1440ms. We find that the longest time taken is during the creation of the cluster at 750ms. We observe that the combination calculations are shrotened in the case of the character combination calculation at 220ms and the other combination calculations are worsened going from less than the resolution of 10ms to 220-250ms.
+
+The increase in performance using prallelization can only be observed when the number of elements to combine significantly increases. The cluster creation is the major bottleneck compared to the non-parallelized version in that case.
+
+
+# Dynamic algorithm
+
+We implement the dynamic approach to the problem that is presented in [this article](https://en.wikipedia.org/wiki/Knapsack_problem#0.2F1_knapsack_problem). 
+
+```{r include = TRUE}
+knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500)
+```
