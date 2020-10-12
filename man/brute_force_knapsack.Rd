@@ -10,6 +10,8 @@ brute_force_knapsack(x, W, parallel = FALSE)
 \item{x}{data.frame}
 
 \item{W}{integer (maximum weight fitting in the knapsack)}
+
+\item{parallel}{bool}
 }
 \value{
 Returns a list object containing value and elements information.

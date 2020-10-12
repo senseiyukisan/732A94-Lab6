@@ -4,6 +4,7 @@
 #' 
 #' @param x data.frame 
 #' @param W integer (maximum weight fitting in the knapsack)
+#' @param parallel bool
 #' 
 #' @return Returns a list object containing value and elements information.
 #' @export
