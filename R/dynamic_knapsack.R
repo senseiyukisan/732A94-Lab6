@@ -8,7 +8,6 @@
 #' @return Returns a list object containing value and elements information.
 #' @export
 knapsack_dynamic <- function(x, W) {
-  
   stopifnot(is.numeric(W))
   if(!"w" %in% colnames(x))
   {
@@ -58,3 +57,18 @@ knapsack_dynamic <- function(x, W) {
   
   return(output_list)
 }
+
+# test_speed <- function(number_objects) {
+#   start_time = Sys.time()
+#   knapsack_dynamic(x = knapsack_objects[1:number_objects,], W = 3500)
+#   end_time = Sys.time()
+#   time_passed = end_time-start_time
+#   cat("Calculation took ", time_passed, " seconds.\n")
+#   return(time_passed)
+# }
+# 
+# speed_vector = c()
+# for (i in 1:10) {
+#   speed_vector = c(speed_vector, test_speed(500))
+# }
+# print(mean(speed_vector))

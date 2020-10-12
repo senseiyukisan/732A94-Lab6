@@ -38,3 +38,18 @@ greedy_knapsack <- function(x, W){
   result <- list("value" = value, "elements" = elements)
   return(result)
 }
+
+# test_speed <- function(number_objects) {
+#   start_time = Sys.time()
+#   greedy_knapsack(x = knapsack_objects[1:number_objects,], W = 3500)
+#   end_time = Sys.time()
+#   time_passed = end_time-start_time
+#   cat("Calculation took ", time_passed, " seconds.\n")
+#   return(time_passed)
+# }
+# 
+# speed_vector = c()
+# for (i in 1:10) {
+#   speed_vector = c(speed_vector, test_speed(1000000))
+# }
+# print(mean(speed_vector))

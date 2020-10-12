@@ -42,7 +42,7 @@ We try to solve all possible combinations of objects and weight and find the sum
 The following code is ran and the profiling tool returns a runtime of 790ms. We compute the knapsack problem for the first 16 generated items.
 
 ```{r include = TRUE}
-brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500)
+knapsack::brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500)
 ```
 
 The bottleneck identified is the combn() function passing the characters that make up the names of each row. It could be that character combination requires more memory to be handled. We have not been able to change it in order to shroten this time.
@@ -52,7 +52,7 @@ The bottleneck identified is the combn() function passing the characters that ma
 We implement parallelization in order to improve the performance of our brute force search. We run the following code and use the profiler to identify the bottlenecks.
 
 ```{r include = TRUE}
-brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500, parallel = TRUE)
+knapsack::brute_force_knapsack(x = knapsack_objects[1:16, ], W = 3500, parallel = TRUE)
 ```
 
 The total runtime is 1440ms. We find that the longest time taken is during the creation of the cluster at 750ms. We observe that the combination calculations are shrotened in the case of the character combination calculation at 220ms and the other combination calculations are worsened going from less than the resolution of 10ms to 220-250ms.
@@ -65,7 +65,7 @@ The increase in performance using prallelization can only be observed when the n
 We implement the dynamic approach to the problem that is presented in [this article](https://en.wikipedia.org/wiki/Knapsack_problem#0.2F1_knapsack_problem). 
 
 ```{r include = TRUE}
-knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500)
+knapsack::knapsack_dynamic(x = knapsack_objects[1:500,], W = 3500)
 ```
 
 We measure a runtime speed of 820 ms. The identified bottleneck is the appending of the matrices at 120ms and 360ms respectively. These are identified as being the most time consuming as we are accessing the data in memory each time we check the condition and when changing the value assigned in the matrix.
@@ -75,7 +75,7 @@ We measure a runtime speed of 820 ms. The identified bottleneck is the appending
 In this approach, we do not look for the best solution to this optimization problem. This algorithm returns an answer that is at least 50\% of the true maximum value that can be put in the knapsack. This algorithm is faster because we do not compute all possible permutations of items, we only sort the values of items relative to their respective weight and then add them to the knapsack until we exceed the maximum weight value W.
 
 ```{r include = TRUE}
-knapsack_(x = knapsack_objects[1:1e+06,], W = 3500)
+knapsack::greedy_knapsack(x = knapsack_objects[1:1e+06,], W = 3500)
 ```
 
 When we measure the runtime of our code for n = 1e+06, we obtain a total time of 700ms with the main bottleneck registering at 370ms when ordering the vector of ratios of value over weight in decreasing order.
